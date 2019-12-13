@@ -1,0 +1,39 @@
+.col-md-8,
+.col-md-4 {
+padding: 1rem;
+background-color: #565656;
+border: 2px solid #fff;
+color: #fff;
+text-align: center;
+}
+
+#classicformpage h6 {
+    color: #FFBF00;
+    line-height: 1.7;
+}
+
+#classicformpage h3 {
+    color: #FFBF00;
+}
+
+#classform .row {
+    background-color: #565656;
+}
+
+#classicformpage .gradient {
+    background: -webkit-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.7),
+      rgba(72, 15, 144, 0.4) 100%
+    );
+    background: -webkit-gradient(
+      linear,
+      45deg,
+      from(rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%)
+    );
+    background: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.7),
+      rgba(72, 15, 144, 0.4) 100%
+    );
+  }
