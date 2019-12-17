@@ -2,22 +2,11 @@ import React , {Component} from 'react';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import api from '../../services/api';
 
-import {
-  MDBContainer,
-  MDBRow,
-  MDBCard,
-  MDBCardBody,
-} from 'mdbreact';
+import {MDBContainer, MDBRow, MDBCard, MDBCardBody} from 'mdbreact';
 
 import './styles.css'
 
 import Logo from '../../images/Investimentos.png'
-
-
-function onAfterDeleteRow(rowKeys) {
-  alert('The rowkey you drop: ' + rowKeys);
-}
-
 
 function onAfterInsertRow(row) {
   let newRowStr = '';
@@ -28,13 +17,11 @@ function onAfterInsertRow(row) {
   alert('The new row is:\n ' + newRowStr);
 }
 
-
-
 const options = {
-  afterDeleteRow: onAfterDeleteRow  // A hook for after droping rows.
+  //onAfterInsertRow: onAfterInsertRow,
 };
 
-// If you want to enable deleteRow, you must enable row selection also.
+//Opções do checkbox
 const selectRowProp = {
   mode: 'checkbox'
 };
@@ -77,17 +64,16 @@ export default class dataTable extends Component{
     };
   }
 
-
-toggle = nr => () => {
-  let modalNumber = 'modal' + nr
-  this.setState({
-    [modalNumber]: !this.state[modalNumber]
-  });
-}
+  toggle = nr => () => {
+    let modalNumber = 'modal' + nr
+    this.setState({
+      [modalNumber]: !this.state[modalNumber]
+    });
+  }
 
 
   componentWillMount = async() => {
-    await api.get('/posts')
+    await api.get('/users')
     .then(Response => Response.data)
     .then(data => {
       //console.log(data);
@@ -103,10 +89,10 @@ toggle = nr => () => {
   assemblyPosts =() => {
     let posts = this.state.posts.map((post) => {
       return({
-        number: post.id,
-        title: post.title,
-        user: post.userId,
-        body: post.body,
+        id: post.id,
+        name: post.name,
+        email: post.email,
+        website: post.website,
       })
     });
     return posts;
@@ -114,42 +100,43 @@ toggle = nr => () => {
 
   csvFormatter(cell, row) {
     return `${row.id}: ${cell} USD`;
-  }
+  } 
   
   render(){
-    document.title = 'Data Table'
+    document.title = 'Datatable'
+    const jobTypes = ['Realizado', 'Não realizado']
     
     const data = this.state.tableRows;
+
     
     return (
       <div id="classicformpage">
-          <MDBContainer className="gradient" fluid>
-              <MDBRow>
-                <img src={Logo} width="400"/>
-              </MDBRow>
-
+        <MDBContainer className="gradient" fluid>          
+          <MDBRow>
+            <img src={Logo} width="400"/>
+          </MDBRow>
           <MDBCard  id="classic-card" color='white' >
             <MDBCardBody>
-              <MDBContainer  fluid>   
-                <BootstrapTable
-                data={data} 
-                deleteRow={true} 
-                insertRow={true} 
-                selectRow={selectRowProp} 
-                exportCSV={true} 
-                cellEdit={cellEditProp}
-                options={options}  
-                pagination>
-                    <TableHeaderColumn dataField='number' width="100" isKey>Product ID</TableHeaderColumn>
-                    <TableHeaderColumn dataField='title' width="400">Name</TableHeaderColumn>
-                    <TableHeaderColumn dataField='body'>Description</TableHeaderColumn>
-                </BootstrapTable>   
+              <MDBContainer  fluid>                
+                  <BootstrapTable
+                  data={data} 
+                  selectRow={selectRowProp} 
+                  insertRow={true} 
+                  deleteRow={true} 
+                  exportCSV={true} 
+                  cellEdit={cellEditProp}
+                  options={options}  
+                  pagination>
+                    <TableHeaderColumn dataField='id' width="100" isKey hidden>ID</TableHeaderColumn>
+                    <TableHeaderColumn dataField='name' width="400">Nome</TableHeaderColumn>
+                    <TableHeaderColumn dataField='email' width="400">E-mail</TableHeaderColumn>
+                    <TableHeaderColumn dataField='website' width="200" editable={ { type:'select', options: { values: jobTypes } } }> Fomento </TableHeaderColumn>
+                  </BootstrapTable> 
               </MDBContainer>
-              </MDBCardBody>
+            </MDBCardBody>
           </MDBCard>  
-        </MDBContainer>
+        </MDBContainer>        
         <MDBContainer>
-
         </MDBContainer>
       </div>       
     );
