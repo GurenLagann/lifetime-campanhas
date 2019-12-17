@@ -1,18 +1,12 @@
 import React , {Component} from 'react';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import api from '../../services/api';
 
 import {
-  MDBDataTable, 
   MDBContainer,
   MDBRow,
-  MDBBtn,
-  MDBModal,
-  MDBModalHeader,
-  MDBModalFooter,
-  MDBModalBody,
-  MDBInput,
   MDBCard,
-  MDBCardBody
+  MDBCardBody,
 } from 'mdbreact';
 
 import './styles.css'
@@ -20,8 +14,32 @@ import './styles.css'
 import Logo from '../../images/Investimentos.png'
 
 
+function onAfterDeleteRow(rowKeys) {
+  alert('The rowkey you drop: ' + rowKeys);
+}
 
-export default class dataTable extends Component{
+
+function onAfterInsertRow(row) {
+  let newRowStr = '';
+
+  for (const prop in row) {
+    newRowStr += prop + ': ' + row[prop] + ' \n';
+  }
+  alert('The new row is:\n ' + newRowStr);
+}
+
+
+
+const options = {
+  afterDeleteRow: onAfterDeleteRow  // A hook for after droping rows.
+};
+
+// If you want to enable deleteRow, you must enable row selection also.
+const selectRowProp = {
+  mode: 'checkbox'
+};
+
+export default class dataTable extends Component{ 
   constructor (props) {
     super(props);
     this.state={
@@ -66,66 +84,35 @@ toggle = nr => () => {
     });
     return posts;
   }
+
+  csvFormatter(cell, row) {
+    return `${row.id}: ${cell} USD`;
+  }
   
   render(){
     document.title = 'Data Table'
-    const data = {
-      columns: [
-        {
-          label:'#',
-          field:'number',
-        },
-        {
-          label:'Title',
-          field:'title',
-        },
-        {
-          label:'User ID',
-          field:'user',
-        },
-        {
-          label:'Body',
-          field:'body',
-        },
-      ],
-      rows:this.state.tableRows,
-    }
+    
+    const data = this.state.tableRows;
+    
     return (
       <div id="classicformpage">
-        <div>
           <MDBContainer className="gradient" fluid>
               <MDBRow >
                 <img src={Logo} width="400"/>
               </MDBRow>
-          <MDBRow left>
-            <MDBBtn color="amber" onClick={this.toggle(2)}>Editar</MDBBtn>
-            <MDBModal isOpen={this.state.modal2} toggle={this.toggle(2)}>
-              <MDBModalHeader toggle={this.toggle(2)}>Alterações</MDBModalHeader>
-              <MDBModalBody>
-                <MDBInput 
-                label= "Fomento"
-                />
-              </MDBModalBody>
-              <MDBModalFooter>
-                <MDBBtn color="secondary" onClick={this.toggle(2)}>Close</MDBBtn>
-                <MDBBtn color="primary">Save changes</MDBBtn>
-              </MDBModalFooter>
-            </MDBModal>
-          </MDBRow>
 
           <MDBCard  id="classic-card" color='white'>
             <MDBCardBody>
-              <MDBContainer fluid>
-                <MDBDataTable
-                  SelectableRows
-                  striped
-                  data={data}
-                  />            
+              <MDBContainer fluid>   
+                <BootstrapTable data={data} deleteRow={true} insertRow={true} selectRow={selectRowProp} exportCSV={true} options={options}>
+                    <TableHeaderColumn dataField='number' isKey>Product ID</TableHeaderColumn>
+                    <TableHeaderColumn dataField='user'>Product Name</TableHeaderColumn>
+                    <TableHeaderColumn dataField='title'>Product Price</TableHeaderColumn>
+                </BootstrapTable>   
               </MDBContainer>
               </MDBCardBody>
           </MDBCard>  
           </MDBContainer>
-        </div>
       </div>       
     );
   }

@@ -56,7 +56,7 @@ class Login extends React.Component {
       <div id="classicformpage">
         <Router>
           <div>
-            <MDBNavbar dark expand="md" fixed="top">
+            <MDBNavbar dark expand="md" fixed="top"> 
               <MDBContainer>
                 <MDBNavbarBrand>
                   <img src={Logo} width="300"/>                  
@@ -93,7 +93,7 @@ class Login extends React.Component {
                         <MDBInput
                           className="white-text"
                           iconClass="white-text"
-                          label="Your password"
+                          label="Senha"
                           icon="lock"
                           type="password"
                           onChange = {e => this.setState({ password: e.target.value })}
