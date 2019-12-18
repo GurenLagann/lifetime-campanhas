@@ -8,14 +8,14 @@ import './styles.css'
 
 import Logo from '../../images/Investimentos.png'
 
-function onAfterInsertRow(row) {
+/*function onAfterInsertRow(row) {
   let newRowStr = '';
 
   for (const prop in row) {
     newRowStr += prop + ': ' + row[prop] + ' \n';
   }
   alert('The new row is:\n ' + newRowStr);
-}
+}*/
 
 const options = {
   //onAfterInsertRow: onAfterInsertRow,
@@ -113,7 +113,7 @@ export default class dataTable extends Component{
       <div id="classicformpage">
         <MDBContainer className="gradient" fluid>          
           <MDBRow>
-            <img src={Logo} width="400"/>
+            <img src={Logo} width="400" alt="Lifetime Logo"/>
           </MDBRow>
           <MDBCard  id="classic-card" color='white' >
             <MDBCardBody>

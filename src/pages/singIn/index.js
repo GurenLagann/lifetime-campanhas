@@ -59,7 +59,7 @@ class Login extends React.Component {
             <MDBNavbar dark expand="md" fixed="top"> 
               <MDBContainer>
                 <MDBNavbarBrand>
-                  <img src={Logo} width="300"/>                  
+                  <img src={Logo} width="300" alt="Lifetime Logo"/>                  
                 </MDBNavbarBrand>
                   <MDBNavbarNav left>
                   </MDBNavbarNav>
