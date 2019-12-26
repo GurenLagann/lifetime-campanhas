@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './auth';
 
 const api = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com',
+    baseURL: 'link da api',
     timeout: 1000,
 });
 

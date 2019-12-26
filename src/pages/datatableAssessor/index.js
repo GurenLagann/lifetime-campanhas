@@ -8,17 +8,17 @@ import './styles.css'
 
 import Logo from '../../images/Investimentos.png'
 
-/*function onAfterInsertRow(row) {
+function onAfterInsertRow(row) {
   let newRowStr = '';
 
   for (const prop in row) {
     newRowStr += prop + ': ' + row[prop] + ' \n';
   }
   alert('The new row is:\n ' + newRowStr);
-}*/
+}
 
 const options = {
-  //onAfterInsertRow: onAfterInsertRow,
+  onAfterInsertRow: onAfterInsertRow,
 };
 
 //Opções do checkbox
@@ -73,7 +73,7 @@ export default class dataTable extends Component{
 
 
   componentWillMount = async() => {
-    await api.get('/users')
+    await api.get('/DataTableDTO')
     .then(Response => Response.data)
     .then(data => {
       //console.log(data);
@@ -89,10 +89,23 @@ export default class dataTable extends Component{
   assemblyPosts =() => {
     let posts = this.state.posts.map((post) => {
       return({
+        /*fomento: post.id,
+        fometnoRealizado: post.equipe,
+        qtdeValor: post.head,
+        nmAi: post.website,*/
+        
         id: post.id,
-        name: post.name,
-        email: post.email,
-        website: post.website,
+        cliente: post.nmCliente,
+        xp: post.perfilXp,
+        aai: post.nmAai,
+        equipe: post.nmEquipe,
+        fomento: post.fomento,
+        elegivel: post.elegivel,
+        fomentoRealizado: post.fomentoRealizado,
+        operacaoEnviada: post.operacaoEnviada,
+        permissaoRecebida: post.permissaoRecebida,
+        ordem: post.ordemExecutada,
+        valor: post.qtdeValor,
       })
     });
     return posts;
@@ -110,8 +123,8 @@ export default class dataTable extends Component{
 
     
     return (
-      <div id="classicformpage">
-        <MDBContainer className="gradient" fluid>          
+      <div backgroundcolor='#B5B5B5'>
+        <MDBContainer  fluid>          
           <MDBRow>
             <img src={Logo} width="400" alt="Lifetime Logo"/>
           </MDBRow>
@@ -121,16 +134,23 @@ export default class dataTable extends Component{
                   <BootstrapTable
                   data={data} 
                   selectRow={selectRowProp} 
-                  insertRow={true} 
-                  deleteRow={true} 
+                  deleteRow={true}  
                   exportCSV={true} 
                   cellEdit={cellEditProp}
                   options={options}  
                   pagination>
                     <TableHeaderColumn dataField='id' width="100" isKey hidden>ID</TableHeaderColumn>
-                    <TableHeaderColumn dataField='name' width="400">Nome</TableHeaderColumn>
-                    <TableHeaderColumn dataField='email' width="400">E-mail</TableHeaderColumn>
-                    <TableHeaderColumn dataField='website' width="200" editable={ { type:'select', options: { values: jobTypes } } }> Fomento </TableHeaderColumn>
+                    <TableHeaderColumn dataField='cliente' width="100">Cliente</TableHeaderColumn>
+                    <TableHeaderColumn dataField='xp' width="100">Perfil</TableHeaderColumn>
+                    <TableHeaderColumn dataField='aai' width="100">Assessor</TableHeaderColumn>
+                    <TableHeaderColumn dataField='equipe' width="100">Equipe</TableHeaderColumn>
+                    <TableHeaderColumn dataField='fomento' width="100">Fomento</TableHeaderColumn>
+                    <TableHeaderColumn dataField='elegivel' width="100" editable={ { type:'select', options: { values:jobTypes } } }> Elegivel </TableHeaderColumn>
+                    <TableHeaderColumn dataField='fomentoRealizado' width="100" editable={ { type:'select', options: { values:jobTypes } } }> Fomento Realizado </TableHeaderColumn>
+                    <TableHeaderColumn dataField='operacaoEnviada' width="100" editable={ { type:'select', options: { values:jobTypes } } }> Operação Enviada </TableHeaderColumn>
+                    <TableHeaderColumn dataField='permissaoRecebida' width="100" editable={ { type:'select', options: { values:jobTypes } } }> Permissão Recebida </TableHeaderColumn>
+                    <TableHeaderColumn dataField='ordem' width="100" editable={ { type:'select', options: { values:jobTypes } } }> Ordem Executada </TableHeaderColumn>
+                    <TableHeaderColumn dataField='valor' width="100">Valor</TableHeaderColumn>
                   </BootstrapTable> 
               </MDBContainer>
             </MDBCardBody>

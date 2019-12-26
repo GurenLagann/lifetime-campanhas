@@ -10,6 +10,7 @@
     "mdbreact": "^4.23.1",
     "react": "^16.12.0",
     "react-bootstrap-table": "^4.3.1",
+    "react-csv-to-table": "^0.0.4",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0"
   },
